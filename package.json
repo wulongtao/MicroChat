@@ -1,0 +1,21 @@
+{
+  "name": "MicroChat",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express": "~4.14.0",
+    "morgan": "~1.7.0",
+    "websocket.io": "0.2.1",
+    "socket.io": "1.5.1",
+    "log4js": "1.0.1",
+    "body-parser": "~1.10.2",
+    "cookie-parser": "~1.3.3",
+    "debug": "~2.1.1",
+    "errorhandler": "^1.1.1",
+    "method-override": "^2.1.2",
+    "serve-favicon": "~2.2.0"
+  }
+}
