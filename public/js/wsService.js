@@ -73,8 +73,13 @@ angular.module('chat', ['urlService', 'common', 'maConstants', 'dataService', 'e
      * 获取Websocket对象
      */
     function getInstance() {
-        if (this.type == 1) {
-            return new WebSocket("ws://" + this.host + ":" + this.port);
+        switch (this.type) {
+            case 1: //websocket
+                return new WebSocket("ws://" + this.host + ":" + this.port);
+                break;
+            case 2: //socket.io
+                return io.connect("ws://" + this.host + ":" + this.port);
+                break;
         }
     }
 
@@ -133,7 +138,7 @@ angular.module('chat', ['urlService', 'common', 'maConstants', 'dataService', 'e
                 qid: questionInfo.qid ? questionInfo.qid : 0,
                 contentType: questionInfo.contentType ? questionInfo.contentType : 1,
                 content: questionInfo.content ? questionInfo.content : "无",
-                address: questionInfo.address ? questionInfo.fromUserId : "普通聊天，无地址",
+                address: questionInfo.address ? questionInfo.address : "普通聊天，无地址",
                 askUserId: questionInfo.fromUserId ? questionInfo.fromUserId : 0,
                 isQPrivacy: questionInfo.isPrivacy ? questionInfo.isPrivacy : 0,
             });
@@ -175,9 +180,9 @@ angular.module('chat', ['urlService', 'common', 'maConstants', 'dataService', 'e
                 common.toast('info', data.message);
             }
             var needClear = page == 1 ? 1 : 0;
-            dataService.addQuestionsInfo(data.data.questions, needClear);
+            dataService.addQuestionsInfo(data.data, needClear);
             dataService.uiVar.isLoading = 0;
-            dataService.hasMoreQue = data.data.hasMore;
+            dataService.hasMoreQue = 0;
         });
 
     }
@@ -218,11 +223,25 @@ angular.module('chat', ['urlService', 'common', 'maConstants', 'dataService', 'e
             this.wss[uid].clientId = uid;
         }
 
-        this.wss[uid].onopen = function () {
-            objThis.onopen(user);
-        };
-        this.wss[uid].onmessage = this.onmessage;
-        this.wss[uid].onclose = this.onclose;
+        switch (this.type) {
+            case 1:
+                this.wss[uid].onopen = function () {
+                    objThis.onopen(user);
+                };
+                this.wss[uid].onmessage = this.onmessage;
+                this.wss[uid].onclose = this.onclose;
+                break;
+
+            case 2:
+                this.wss[uid].on('connect', function () {
+                    objThis.onopen(user);
+                });
+                this.wss[uid].on('message', this.onmessage);
+                this.wss[uid].on('disconnect', this.onclose);
+                break;
+        }
+
+
     }
 
     /**
@@ -259,7 +278,12 @@ angular.module('chat', ['urlService', 'common', 'maConstants', 'dataService', 'e
      * @param msg
      */
     function onmessage(msg) {
-        msg = JSON.parse(msg.data);
+        if (wss.type === 1) {
+            msg = JSON.parse(msg.data);
+        } else if (wss.type === 2) {
+            msg = JSON.parse(msg);
+        }
+
         msg.toUserId = this.clientId;
         if (!msg.qid) msg.qid = 0;
         console.log(msg);
@@ -295,13 +319,23 @@ angular.module('chat', ['urlService', 'common', 'maConstants', 'dataService', 'e
      */
     function sendMsg(uid, msg) {
         var ws = this.wss[uid];
-        if (ws.readyState == 1) {
-            ws.send(JSON.stringify(msg));
-            return true;
-        } else {
-            common.toast('info', '发送信息太快，请稍后再发送');
-            return false;
+        switch (this.type) {
+            case 1:
+                if (ws.readyState == 1) {
+                    ws.send(JSON.stringify(msg));
+                    return true;
+                } else {
+                    common.toast('info', '发送信息太快，请稍后再发送');
+                    return false;
+                }
+                break;
+
+            case 2:
+                ws.send(JSON.stringify(msg));
+                return true;
+                break;
         }
+
     }
 
     function sendChatMsg(uid, touserId, contentType, content, qid, askUserId) {
@@ -491,10 +525,10 @@ angular.module('chat', ['urlService', 'common', 'maConstants', 'dataService', 'e
         var touserInfo = dataService.getToUser(msg.toUserId, msg.targetUserId, msg.qid);
         if (!touserInfo || !touserInfo['uid']) {
             wss.addToUser(msg.toUserId, msg.qid, msg.targetUserId, true, function () {
-                doHandleChatNoticeStep1(msg);
+                doHandleChatNotice(msg);
             });
         } else {
-            doHandleChatNoticeStep1(msg);
+            doHandleChatNotice(msg);
         }
 
 

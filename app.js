@@ -19,6 +19,9 @@ app.use(favicon(path.join(__dirname, 'public/images/favicon.png')));
 //
 app.use(methodOverride());
 //定义数据解析器
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 //定义cookie解析器
 app.use(cookieParser());

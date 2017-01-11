@@ -1,0 +1,14 @@
+{
+  "o2o_user": {
+    "driver": "mysql",
+    "user": "root",
+    "database": "o2o_user",
+    "password": "q7231012"
+  },
+  "o2o_data": {
+    "driver": "mysql",
+    "user": "root",
+    "database": "o2o_data",
+    "password": "q7231012"
+  }
+}

@@ -62,6 +62,7 @@ angular.module('common', ['toaster', 'angular-web-notification', 'oitozero.ngSwe
      * @returns {boolean}
      */
     function isValid(param) {
+        console.log(param);
         var value = true;
         if (Array.isArray(param)) {
             for (var i = 0; i < param.length; i++) {
@@ -69,7 +70,7 @@ angular.module('common', ['toaster', 'angular-web-notification', 'oitozero.ngSwe
             }
         } else if (/^[\],:{}\s]*$/.test(JSON.stringify(param).replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) { //判断是否是json数组
             for (var k in param) {
-                value = value && param[k];
+                value = value && (param[k] || param[k] == 0);
             }
         } else {
             value = value && param;

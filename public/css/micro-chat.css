@@ -453,7 +453,7 @@ ul, li {
     font-size: 14px;
     color: #BCBCBC;
     padding-left: 25px;
-    background: url("../../../images/answer-list/ask-icon.png") no-repeat;
+    background: url("../../../images/ask-icon.png") no-repeat;
     background-size: 20px;
 }
 
@@ -662,7 +662,7 @@ ul, li {
 .chat-wrapper .chat-box .chat-main .chat-item .item-wrapper .chat-text.chat-answer .que-title,
 .chat-wrapper .chat-box .chat-main .chat-item .item-wrapper .chat-text.chat-que .que-title {
     padding-left: 25px;
-    background: url("../../../images/answer-list/ask-icon.png") no-repeat;
+    background: url("../../../images/ask-icon.png") no-repeat;
     background-size: 20px;
     max-width: 260px;
     color: #444;

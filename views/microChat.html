@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/lib/emoji.css">
     <link rel="stylesheet" type="text/css" href="css/micro-chat.css">
 
+    <script type="text/javascript" src="js/lib/socket.io-1.4.5.js"></script>
     <script type="text/javascript" src="js/lib/angular.min.js"></script>
     <script type="text/javascript" src="js/lib/angular-contenteditable.js"></script>
     <script type="text/javascript" src="js/lib/angular-animate.min.js"></script>
@@ -236,10 +237,10 @@
                 <div class="que-wrapper">
                     <div class="que-header">
                         <div class="avatar">
-                            <img ng-src="{{que.userInfo.avatar}}" alt="">
+                            <img ng-src="{{que.avatar}}" alt="">
                         </div>
                         <div class="info">
-                            <span class="nick">{{que.userInfo.nick}}</span>
+                            <span class="nick">{{que.nick}}</span>
                             <span class="address">地址：{{que.address}}</span>
                         </div>
                     </div>
@@ -253,15 +254,10 @@
                             </audio>
                             <i class="fa fa-volume-up" aria-hidden="true"></i>
                         </div>
-                        <div class="counts">
-                            <span class="alert">回答客服人数: {{que.clientUsers}}</span>
-                            <span class="alert">回答用户人数: {{que.normalUsers}}</span>
-                            <span class="alert">提问时间: {{que.addTime}}</span>
-                        </div>
                     </div>
                     <div class="que-footer">
                         <span class="btn btn-ignore" ng-click="queIgnore(que.qid)">忽略</span>
-                        <span class="btn btn-answer" ng-click="queAnswer(que.qid, que.userInfo.userId)">解答</span>
+                        <span class="btn btn-answer" ng-click="queAnswer(que.qid, que.userId)">解答</span>
                     </div>
                 </div>
             </li>

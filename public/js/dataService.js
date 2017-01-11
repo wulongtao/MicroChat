@@ -378,7 +378,7 @@ angular.module('dataService', ['maConstants']).factory('dataService', function (
         data = typeof data !== 'undefined' ? data : {};
         this.touserInfo.uid = data.uid ? data.uid : 0;
         this.touserInfo.qid = data.qid ? data.qid : 0;
-        this.touserInfo.nick = data.nick ? data.nick : '猪猪微答';
+        this.touserInfo.nick = data.nick ? data.nick : '微答';
         this.touserInfo.avatar = data.avatar ? data.avatar : 'http://weida.products-test.zhuzhu.com/static/images/ma-operator/login-logo.png';
         this.touserInfo.content = data.content ? data.content : '客服聊天系统';
         this.touserInfo.contentType = data.contentType ? data.contentType : maConstants.contentType.TYPE_TEXT;

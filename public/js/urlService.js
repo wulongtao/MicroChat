@@ -26,7 +26,7 @@ angular.module('urlService', ['ngFileUpload', 'httpService']).factory('urlServic
     return service;
 
     function addUser(phone, passwd) {
-        return httpService.get(HTTP_URL_PREFIX + "/?_c=microAnswerOperator&_a=addUser&phone=" + phone + "&password=" + passwd
+        return httpService.get(HTTP_URL_PREFIX + "/login?phone=" + phone + "&password=" + passwd
         ).then(function (data) {
             return data;
         });
@@ -44,7 +44,7 @@ angular.module('urlService', ['ngFileUpload', 'httpService']).factory('urlServic
 
         if (!Array.isArray(qids)) return false;
         qids = qids.join(',');
-        return httpService.get(HTTP_URL_PREFIX + "/?_c=microAnswerOperator&_a=questionsDetail&qids=" + qids + "&page=" + page
+        return httpService.get(HTTP_URL_PREFIX + "/questionsDetail?qids=" + qids + "&page=" + page
         ).then(function (data) {
             return data;
         });
@@ -54,7 +54,7 @@ angular.module('urlService', ['ngFileUpload', 'httpService']).factory('urlServic
         uid = parseInt(uid);
         if (!uid) return false;
 
-        return httpService.get(HTTP_URL_PREFIX + "/?_c=microAnswerOperator&_a=userQuestionInfo&uid=" + uid + "&qid=" + qid)
+        return httpService.get(HTTP_URL_PREFIX + "/userQuestionInfo?uid=" + uid + "&qid=" + qid)
             .then(function (data) {
                 return data;
             });

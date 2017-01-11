@@ -2,9 +2,8 @@ var app = angular.module("app", ['ngSanitize', 'contenteditable', 'angularLazyIm
 
 app.controller("CtlChat", ['$scope', '$sce', 'wsService', 'dataService', 'common', 'maConstants', 'emojiFactory', 'mapService', function ($scope, $sce, wsService, dataService, common, maConstants, emojiFactory, mapService) {
 
-
     //初始化wsFactory,type=1为websocket模式（socket.io模式待扩展）
-    wsService.init({type: 1});
+    wsService.init({type: 2});
     $scope.emojis = emojiFactory.emj('html_to_html5'); //初始化表情库
     $scope.contentType = maConstants.contentType; //初始化消息类型
     initParams(); //初始化（清空）默认的聊天标题和聊天记录
